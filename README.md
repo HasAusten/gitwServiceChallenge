@@ -1,4 +1,4 @@
-GITW Service Challenge
+TMC API Service Challenge
 ===
 
 Introduction
@@ -9,7 +9,7 @@ Slowly, chaos begin to creep in. These services were not quite similar enough to
 
 Your job is to bring up a simple caching service. Your service will exist solely to get, put, and delete data into and out of a cache. All these methods will support a clean and transparent contract to make cache interactions as simple as possible.
 
-Requirements will trickle your way throughout the physical challenge, but here are a few hints to get started. Your clients will push you different types of data (all valid JSON), they'll do it concurrently, and they expect a fast response.
+Your clients will push you different types of data (all valid JSON), they'll do it concurrently, and they expect a fast response, so choose an appropriate language with which you will implement this new caching service.
 
 Endpoints
 --------------------
@@ -54,3 +54,28 @@ Any service call that returns more than one cache item will return a "cache" key
     ]
 }```
 
+Additional Specifications
+===
+Implement at least 2 of the following 4 requirements:
+
+Requirement #1
+------------------
+A successful POST should return status code 201 with a link to the new cache item's key in the Location header. It should return 409 if a resource with that key already exists.
+
+GET, PUT, and DELETE should return 404 if passed in a cache item key that does not exist in the cache.
+
+If invalid JSON is passed in to a PUT or POST, return a status code 406.
+
+A successful PUT or DELETE should result in status code 204.
+
+Requirement #2
+------------------
+The contents of your cache must survive a restart of the machine hosting the cache service.
+
+Requirement #3
+------------------
+A cache item should be purged from the cache after it's been returned in any GET call 100 times.
+
+Requirement #4
+------------------
+Your service must adhere to an SLA of 100ms at a request load of 100 requests per second for a period of 5 minutes.
