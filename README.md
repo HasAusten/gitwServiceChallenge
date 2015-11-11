@@ -11,52 +11,58 @@ Your job is to bring up a simple caching service. Your service will exist solely
 
 Your clients will push you different types of data (all valid JSON), they'll do it concurrently, and they expect a fast response, so choose an appropriate language with which you will implement this new caching service.
 
+Deliverables
+--------------------
+Please provide your source code and any build/deploy instructions needed to spin up your solution. Also provide a description of your testing procedures.
+
 Endpoints
 --------------------
 Your caching service will operate at http://localhost:8088/. Please provide the following endpoints which handle the following HTTP verbs:
 * /cache/
- * POST - creates a new item in the cache. The body of the POST should match the contract specified in the Contract section. 
- * GET - gets the entire cache.
- * DELETE - deletes the cache.
+     * POST - creates a new item in the cache. The body of the POST should match the contract specified in the Contract section. 
+     * GET - gets the entire cache.
+     * DELETE - deletes the cache.
 
 * /cache/{key}
- * GET - gets the fully-specified key / value pair.
- * PUT - updates the cache item with matching key. The body of the PUT should match the contract specified in the Contract section.
- * DELETE - deletes the cache item with matching key.
+     * GET - gets the fully-specified key / value pair.
+     * PUT - updates the cache item with matching key. The body of the PUT should match the contract specified in the Contract section.
+     * DELETE - deletes the cache item with matching key.
 
 Contract
 --------------------
 Your cache service will expect input in valid JSON and emit output in valid JSON. A single cache item will always be described thusly:
-```{
+```
+{
     "key": "{key}",
     "value": "{value}"
-}```
+}
+```
 
 An example payload:
-```{
+```
+{
     "key": "problem_free_philosophy",
     "value": "Hakuna Matata"
-}```
+}
+```
 
 Keys and values may be any string, boolean, integer, or decimal value.
 
 Any service call that returns more than one cache item will return a "cache" key with an array of the JSON object above:
-```{
-    "cache": [
-        {
+```
+{ "cache": [{
             "key": "foo",
             "value": 3.9999
-        },
-        {
+        },{
             "key": "bar",
             "value": true
-        }
-    ]
-}```
+        }]
+}
+```
 
 Additional Specifications
 ===
-Implement at least 2 of the following 4 requirements:
+Implement at least 2 of the following 5 requirements:
 
 Requirement #1
 ------------------
@@ -74,8 +80,19 @@ The contents of your cache must survive a restart of the machine hosting the cac
 
 Requirement #3
 ------------------
-A cache item should be purged from the cache after it's been returned in any GET call 100 times.
+A cache item should be able to accept an expires date-time, defaults to never expire.
+```
+{
+    "key": "{key}",
+    "value": "{value}",
+    "expires": "{date_time}"
+}
+```
 
 Requirement #4
 ------------------
-Your service must adhere to an SLA of 100ms at a request load of 100 requests per second for a period of 5 minutes.
+Implement an additional endpoint that lets you search for keys and/or values.
+
+Requirement #5
+------------------
+Implement an additional endpoint that provides some basic usage metrics for the caching service.
