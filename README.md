@@ -13,7 +13,13 @@ Your clients will push you different types of data (all valid JSON), they'll do 
 
 Deliverables
 --------------------
-Please provide your source code and any build/deploy instructions needed to spin up your solution, and tell us how you approached testing. We will be looking at idiomatic consistency, cleanliness, documentation and implementation.
+Please provide an archive file with:
+* Your source code
+* Build/deploy instructions needed to spin up your solution
+* README.txt that details how you tested your solution, as well as any other explanation tasks requested in this challenge
+* This document to avoid ambiguity where multiple versions of this document may exist
+
+We will be looking at idiomatic consistency, cleanliness, documentation and implementation.
 
 Endpoints
 --------------------
@@ -53,7 +59,8 @@ Any service call that returns more than one cache item will return a "cache" key
 { "cache": [{
             "key": "foo",
             "value": 3.9999
-        },{
+        },
+        {
             "key": "bar",
             "value": true
         }]
@@ -66,23 +73,23 @@ Implement at least 2 of the following 4 requirements:
 
 Requirement #1
 ------------------
-A successful POST should return status code 201 with a link to the new cache item's key in the Location header. It should return 409 if a resource with that key already exists.
-
-GET, PUT, and DELETE should return 404 if passed in a cache item key that does not exist in the cache.
-
-If invalid JSON is passed in to a PUT or POST, return a status code 406.
-
-A successful PUT or DELETE should result in status code 204.
+* A successful POST should return status code 201 with a link to the new cache item's key in the Location header
+* A POST should return 409 if a resource with that key already exists
+* GET, PUT, and DELETE should return 404 if passed in a cache item key that does not exist in the cache
+* If invalid JSON is passed in to a PUT or POST, return a status code 406
+* What HTTP status codes are missing from this list? Implement them and document them in the README file
 
 Requirement #2
 ------------------
-The contents of your cache must survive a restart of the machine hosting the cache service.
+Ensure the contents of your cache survive a clean restart of the machine hosting the cache service.
+
+Discuss a scenario where your service may not shut down cleanly. To what degree and in what ways can you handle these scenarios? What are the potential risks/complications when your application unexpectedly shuts down?
 
 Requirement #3
 ------------------
 When the HTTP verb is POST or PUT a cache item should be able to accept an expires field (in number of seconds) which defaults to 0 (never expire). The item will remain cached for the duration of N seconds after a successful POST or PUT completes and MUST NOT be returned beyond N seconds.
 
-Furthermore, on subsequent PUT requests for a cache item that do not explicitly set an expires value should cause the cache to reset the expiration of the item based on its previous expires value. A new expires value in a PUT request will take precedence over any previously set value.
+Furthermore, subsequent PUT requests for a cache item that do not explicitly set an expires value should cause the cache to reset the expiration of the item based on its previous expires value. A new expires value in a PUT request will take precedence over any previously set value.
 ```
 {
     "key": "{key}",
@@ -102,4 +109,4 @@ The return value from any POST, PUT or GET on a cache item that has an expires v
 
 Requirement #4
 ------------------
-Implement an additional endpoint that provides some basic usage metrics for the caching service--system uptime, for example. Identify 5 possible metrics and implement 2 of them. Explain why the two metrics you implemented took precedence over the other three.
+Implement an additional endpoint that provides some basic usage metrics for the caching service---system uptime, for example. Identify 5 possible metrics and implement 2 of them. Explain why the two metrics you implemented took precedence over the other three.
